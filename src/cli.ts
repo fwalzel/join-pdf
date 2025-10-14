@@ -2,18 +2,61 @@
 import { Command } from "commander";
 import fs from "fs/promises";
 import path from "path";
+import { fileURLToPath } from "url";
 import { listPdfs, testList, join, JoinItem } from "./join-pdf.js";
+
+// Dynamically resolve version from package.json
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const pkgPath = path.resolve(__dirname, "../package.json");
+
+let version = "0.0.0";
+try {
+  const pkgData = JSON.parse(await fs.readFile(pkgPath, "utf8"));
+  version = pkgData.version || version;
+} catch {
+  console.warn("⚠️ Could not read version from package.json, defaulting to 0.0.0");
+}
 
 const program = new Command();
 
 program
     .name("join-pdf")
     .description("Join and manage PDF files with flexible page selection")
-    .version("1.0.0");
+    .version(version);
+
+/**
+ * Helper: parse a --pages string into JoinItem[]
+ * Example: "0:1,blank,1:2-4,0:5"
+ */
+function parsePagesArg(arg: string): JoinItem[] {
+  const items: JoinItem[] = [];
+  const tokens = arg.split(",").map((t) => t.trim());
+
+  for (const token of tokens) {
+    if (!token || token.toLowerCase() === "blank") {
+      items.push({ blank: true });
+      continue;
+    }
+
+    const match = /^(\d+):([\d]+(?:-[\d]+)?)$/.exec(token);
+    if (!match) {
+      throw new Error(
+          `Invalid --pages token "${token}". Use format "pdfIndex:page" or "pdfIndex:start-end" or "blank".`
+      );
+    }
+
+    const pdf = parseInt(match[1], 10);
+    const page = match[2].includes("-") ? match[2] : parseInt(match[2], 10);
+
+    items.push({ pdf, page });
+  }
+
+  return items;
+}
 
 /**
  * LIST COMMAND
- * Example: join-pdf list file1.pdf file2.pdf
  */
 program
     .command("list")
@@ -31,22 +74,29 @@ program
 
 /**
  * TEST COMMAND
- * Example: join-pdf test file1.pdf file2.pdf --join joinlist.json
  */
 program
     .command("test")
     .description("Validate a join list against PDFs (check page existence, usage, etc.)")
     .argument("<pdf...>", "PDF file paths")
     .option("-j, --join <file>", "JSON file defining join list")
+    .option("-p, --pages <definition>", "Inline page definition (e.g. '0:1,blank,1:2-5')")
     .action(async (pdfs: string[], options) => {
-      const joinFile = options.join;
-      if (!joinFile) {
-        console.error("❌ Missing --join <file> argument");
-        process.exit(1);
-      }
-
       try {
-        const joinData = JSON.parse(await fs.readFile(joinFile, "utf8")) as JoinItem[];
+        let joinData: JoinItem[] = [];
+
+        if (options.join && options.pages) {
+          throw new Error("Use either --join or --pages, not both.");
+        }
+
+        if (options.join) {
+          joinData = JSON.parse(await fs.readFile(options.join, "utf8"));
+        } else if (options.pages) {
+          joinData = parsePagesArg(options.pages);
+        } else {
+          throw new Error("You must specify either --join <file> or --pages <definition>");
+        }
+
         const result = await testList(pdfs, joinData);
 
         if (result.errors.length) {
@@ -73,24 +123,31 @@ program
 
 /**
  * JOIN COMMAND
- * Example: join-pdf join file1.pdf file2.pdf --join joinlist.json --out output.pdf
  */
 program
     .command("join")
-    .description("Join PDFs according to join list into one output file")
+    .description("Join PDFs according to join list or inline page definition")
     .argument("<pdf...>", "PDF file paths")
     .option("-j, --join <file>", "JSON file defining join list")
+    .option("-p, --pages <definition>", "Inline page definition (e.g. '0:1,blank,1:2-5')")
     .option("-o, --out <file>", "Output PDF file name", "output.pdf")
     .action(async (pdfs: string[], options) => {
-      const joinFile = options.join;
-      if (!joinFile) {
-        console.error("❌ Missing --join <file> argument");
-        process.exit(1);
-      }
-
       try {
-        const joinData = JSON.parse(await fs.readFile(joinFile, "utf8")) as JoinItem[];
-        console.log(`📄 Combining ${pdfs.length} PDFs according to ${joinFile}...`);
+        let joinData: JoinItem[] = [];
+
+        if (options.join && options.pages) {
+          throw new Error("Use either --join or --pages, not both.");
+        }
+
+        if (options.join) {
+          joinData = JSON.parse(await fs.readFile(options.join, "utf8"));
+        } else if (options.pages) {
+          joinData = parsePagesArg(options.pages);
+        } else {
+          throw new Error("You must specify either --join <file> or --pages <definition>");
+        }
+
+        console.log(`📄 Combining ${pdfs.length} PDFs...`);
 
         const bytes = await join(pdfs, joinData);
         await fs.writeFile(options.out, bytes);
