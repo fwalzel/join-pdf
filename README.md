@@ -52,19 +52,19 @@ join-pdf list file1.pdf file2.pdf file3.pdf
 
 ---
 
-#### 2. `test`
+#### 2. `validate`
 
 Validates a join definition before combining PDFs.  
 It checks whether page references exist and reports how often each source page is used.
 
 ```bash
-join-pdf test file1.pdf file2.pdf --join joinlist.json
+join-pdf validate file1.pdf file2.pdf --join joinlist.json
 ```
 
 or define the join inline using `--pages`:
 
 ```bash
-join-pdf test file1.pdf file2.pdf --pages "0:1,blank,1:2-4,0:5"
+join-pdf validate file1.pdf file2.pdf --pages "0:1,blank,1:2-4,0:5"
 ```
 
 **Example Output:**
@@ -140,7 +140,7 @@ You can also use `join-pdf` as a module in your Node.js or TypeScript projects.
 ### 🔹 Import
 
 ```ts
-import { listPdfs, join, testList } from "join-pdf";
+import { listPdfs, join, validateList } from "join-pdf";
 ```
 
 ---
@@ -187,12 +187,12 @@ await fs.writeFile("output.pdf", bytes);
 
 ---
 
-### `async testList(pdfs: string[], joinList: JoinItem[]): Promise<TestResult>`
+### `async validateList(pdfs: string[], joinList: JoinItem[]): Promise<TestResult>`
 
 Validates that all referenced pages exist and reports usage.
 
 ```ts
-const result = await testList(["a.pdf", "b.pdf"], joinList);
+const result = await validateList(["a.pdf", "b.pdf"], joinList);
 
 if (result.errors.length) {
   console.error("Errors:", result.errors);
@@ -244,7 +244,7 @@ my-project/
 
 - You can reuse pages multiple times (e.g., `{ "pdf": 0, "page": 1 }` repeated).
 - Non-consecutive pages are supported — order is fully flexible.
-- `testList` helps ensure all requested pages exist before joining.
+- `validateList` helps ensure all requested pages exist before joining.
 - Works best with **Node.js v18+**.
 
 ---

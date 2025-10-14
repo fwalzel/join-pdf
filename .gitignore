@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # ide
 .idea
+
+#pdfs
+*.pdf
