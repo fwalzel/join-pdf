@@ -2,7 +2,7 @@
  *
  * @Author Florian Walzel
  * @License MIT
- * @Desription Programmatically join any number of PDF files in arbitrary page orders.
+ * @Description Programmatically join any number of PDF files in arbitrary page orders.
  *
  * Example usage:
  *
