@@ -1,0 +1,41 @@
+{
+  "name": "join-pdf",
+  "version": "1.0.0",
+  "description": "Programmatically join any number of PDF files in arbitrary page orders.",
+  "main": "dist/join-pdf.js",
+  "scripts": {
+    "test": "test"
+  },
+  "bin": {
+    "pdf-join": "dist/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fwalzel/join-pdf.git"
+  },
+  "keywords": [
+    "PDF",
+    "Joiner",
+    "arbitrary",
+    "page",
+    "orders",
+    "arbitrary",
+    "page",
+    "orders"
+  ],
+  "author": "Florian Walzel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fwalzel/join-pdf/issues"
+  },
+  "homepage": "https://github.com/fwalzel/join-pdf#readme",
+  "dependencies": {
+    "commander": "^14.0.1",
+    "pdf-lib": "^1.17.1"
+  },
+  "devDependencies": {
+    "@types/commander": "^2.12.0",
+    "@types/node": "^24.7.2",
+    "typescript": "^5.9.3"
+  }
+}
