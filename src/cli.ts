@@ -3,7 +3,7 @@ import { Command } from "commander";
 import fs from "fs/promises";
 import path from "path";
 import { fileURLToPath } from "url";
-import { listPdfs, testList, join, JoinItem } from "./join-pdf.js";
+import { listPdfs, validateList, join, JoinItem } from "./join-pdf.js";
 
 // Dynamically resolve version from package.json
 const __filename = fileURLToPath(import.meta.url);
@@ -76,7 +76,7 @@ program
  * TEST COMMAND
  */
 program
-    .command("test")
+    .command("validate")
     .description("Validate a join list against PDFs (check page existence, usage, etc.)")
     .argument("<pdf...>", "PDF file paths")
     .option("-j, --join <file>", "JSON file defining join list")
@@ -97,7 +97,7 @@ program
           throw new Error("You must specify either --join <file> or --pages <definition>");
         }
 
-        const result = await testList(pdfs, joinData);
+        const result = await validateList(pdfs, joinData);
 
         if (result.errors.length) {
           console.error("\n⚠️  Validation Errors:");

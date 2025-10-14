@@ -1,3 +1,29 @@
+/** join-pdf
+ *
+ * @Author Florian Walzel
+ * @License MIT
+ * @Desription Programmatically join any number of PDF files in arbitrary page orders.
+ *
+ * Example usage:
+ *
+ * (async () => {
+ *   const pdfs = ["one.pdf", "two.pdf"];
+ *   const joinList: JoinItem[] = [
+ *     { pdf: 0, page: 1 },
+ *     { blank: true },
+ *     { pdf: 1, page: "2-5" },   // Range of pages
+ *     { pdf: 0, page: "3-4" },
+ *   ];
+ *
+ *   console.log(await listPdfs(pdfs));
+ *   console.log(await validateList(pdfs, joinList));
+ *
+ *   const bytes = await join(pdfs, joinList);
+ *   await fs.writeFile("output.pdf", bytes);
+ * })();
+ */
+
+
 import fs from "fs/promises";
 import { PDFDocument } from "pdf-lib";
 
@@ -19,7 +45,7 @@ export interface JoinItem {
   blank?: boolean;
 }
 
-/** Diagnostic information returned by testList(). */
+/** Diagnostic information returned by validateList(). */
 export interface TestResult {
   errors: string[];
   usage: {
@@ -121,7 +147,7 @@ export async function join(
  * Tests a joinList configuration against available PDFs.
  * Reports invalid page references and usage frequency.
  */
-export async function testList(
+export async function validateList(
     pdfs: string[],
     joinList: JoinItem[]
 ): Promise<TestResult> {
@@ -175,24 +201,4 @@ export async function testList(
 
   return result;
 }
-
-/**
- * Example usage:
- *
- * (async () => {
- *   const pdfs = ["one.pdf", "two.pdf"];
- *   const joinList: JoinItem[] = [
- *     { pdf: 0, page: 1 },
- *     { blank: true },
- *     { pdf: 1, page: "2-5" },   // Range of pages
- *     { pdf: 0, page: "3-4" },
- *   ];
- *
- *   console.log(await listPdfs(pdfs));
- *   console.log(await testList(pdfs, joinList));
- *
- *   const bytes = await join(pdfs, joinList);
- *   await fs.writeFile("output.pdf", bytes);
- * })();
- */
 

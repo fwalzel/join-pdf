@@ -3,25 +3,24 @@
   "version": "1.0.0",
   "description": "Programmatically join any number of PDF files in arbitrary page orders.",
   "main": "dist/join-pdf.js",
-  "scripts": {
-    "test": "test"
-  },
+  "type": "module",
   "bin": {
-    "pdf-join": "dist/cli.js"
+    "join-pdf": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "test": "test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fwalzel/join-pdf.git"
   },
   "keywords": [
-    "PDF",
-    "Joiner",
-    "arbitrary",
-    "page",
-    "orders",
-    "arbitrary",
-    "page",
-    "orders"
+    "PDF Joiner",
+    "shuffle PDF",
+    "CLI",
+    "arbitrary page orders",
+    "append / prepend PDF"
   ],
   "author": "Florian Walzel",
   "license": "MIT",
