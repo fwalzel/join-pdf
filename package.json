@@ -21,11 +21,16 @@
   },
   "keywords": [
     "PDF Joiner",
-    "shuffle PDF",
-    "PDF fusion",
+    "PDF toolkit",
     "CLI",
-    "arbitrary page orders",
-    "append / prepend PDFs"
+    "shuffle",
+    "fuse",
+    "combine",
+    "merge",
+    "mix",
+    "append / prepend",
+    "PDF Documents",
+    "arbitrary page orders"
   ],
   "author": "Florian Walzel",
   "license": "MIT",
