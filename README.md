@@ -3,6 +3,9 @@
 A **Node.js + TypeScript** module and CLI tool to **combine multiple PDF files** with full control over page order, duplication, and insertion of blank pages.  
 You can use it as a **CLI command** or as a **programmatic library** inside your Node projects.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![Node.js version](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+
 ---
 
 ## Installation
@@ -10,8 +13,10 @@ You can use it as a **CLI command** or as a **programmatic library** inside your
 ```bash
 # install locally in your project
 npm install join-pdf
+# enable the CLI in a single project
+npm link join-pdf 
 
-# or install globally to use as a CLI command
+# or install globally to use as a CLI command everywhere
 npm install -g join-pdf
 ```
 
@@ -33,7 +38,7 @@ join-pdf [command] [options]
 
 #### 1. `list`
 
-Lists all PDFs and their total page counts.
+Lists all requested PDFs and their total page counts.
 
 ```bash
 join-pdf list file1.pdf file2.pdf file3.pdf
