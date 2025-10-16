@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "Programmatically join any number of PDF files in arbitrary page orders.",
   "main": "dist/join-pdf.js",
+  "types": "dist/types/join-pdf.d.ts",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "join-pdf": "dist/cli.js"
   },
@@ -18,9 +22,10 @@
   "keywords": [
     "PDF Joiner",
     "shuffle PDF",
+    "PDF fusion",
     "CLI",
     "arbitrary page orders",
-    "append / prepend PDF"
+    "append / prepend PDFs"
   ],
   "author": "Florian Walzel",
   "license": "MIT",
