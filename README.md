@@ -187,7 +187,7 @@ await fs.writeFile("output.pdf", bytes);
 ```
 
 ✅ You can reuse or skip pages  
-✅ You can insert blank pages  
+✅ You can insert blank pages (A4 portrait) 
 ✅ You can use page ranges like `"2-5"`
 
 ---
