@@ -1,7 +1,7 @@
 /** join-pdf
  *
  * @Author Florian Walzel
- * @License MIT
+ * @License MIT, 2025
  * @Description Programmatically join any number of PDF files in arbitrary page orders.
  *
  * Example usage:
