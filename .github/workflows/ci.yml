@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+  release:
+    types: [published]
+
+env:
+  IMAGE_ID: ${{ github.repository }}
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        with:
+          node-version: 18.x
+        run: |
+          npm i
+          npm run test
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
