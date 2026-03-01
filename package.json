@@ -1,6 +1,6 @@
 {
   "name": "join-pdf",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Programmatically join any number of PDF files in arbitrary page orders.",
   "main": "dist/join-pdf.js",
   "types": "dist/types/join-pdf.d.ts",
