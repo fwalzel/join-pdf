@@ -22,6 +22,10 @@ npm install -g join-pdf
 
 ---
 
+[![Florian Walzel, What was design? Declarations and definitions from a century of creative quest](https://florianwalzel.com/wwd-hero-e.webp)](https://www.slanted.de/product/what-was-design/)
+
+
+
 ## CLI Usage
 
 Once installed globally, you can use the `join-pdf` command directly in your terminal.
